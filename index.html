@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+        body {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+            width: 100%;
+            background-color: #1976D2;
+        }
+
+        section {
+            padding: 2rem;
+            color: #f2f2f2;
+            background-color: #d0d0d0;
+            font-size: 1.8rem;
+            width: 34rem;
+            height: 47.5rem;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        span {
+            font-size: 1.2rem;
+            color: #2b2b2b;
+        }
+
+        input[type="text"] {
+            display: block;
+            width: calc(100% - 1rem);
+            margin-block: 1rem;
+            margin-inline: auto;
+            border: none;
+            outline: none;
+            padding-block: 0;
+            padding-inline: 2rem;
+            text-align: right;
+            color: #f2f2f2;
+            background-color: #1a1a1a;
+            height: 5rem;
+            border-radius: 1.2rem;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="button"] {
+            border: none;
+            outline: none;
+            color: #f2f2f2;
+            background-color: #2b2b2b;
+            height: 6rem;
+            width: 6rem;
+            margin: 0.5rem;
+            border-radius: 0.8rem;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #4CAF50;
+            color: #f2f2f2;
+        }
+
+        input[type="button"]:active {
+            background-color: #388E3C;
+            color: #f2f2f2;
+        }
+
+
+        input[type="button"][value="="] {
+            width: 70%;
+            background: #D32F2F;
+            color: #f2f2f2;
+            font-size: 1.8rem;
+            border-radius: 1.6rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="button"][value="="]:hover {
+            background-color: #FF5722;
+        }
+
+        input[type="button"][value="="]:active {
+            background-color: #E64A19;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <form name="calculator">
+            <span>di bikin dg penuh cinta &amp; kasih sayang, by AA</span>
+            <input type="text" name="view" disabled />
+            <div>
+                <input type="button" value="1" />
+                <input type="button" value="2" />
+                <input type="button" value="3" />
+                <input type="button" value="back" />
+            </div>
+            <div>
+                <input type="button" value="4" />
+                <input type="button" value="5" />
+                <input type="button" value="6" />
+                <input type="button" value="-" />
+            </div>
+            <div>
+                <input type="button" value="7" />
+                <input type="button" value="8" />
+                <input type="button" value="9" />
+                <input type="button" value="x" />
+            </div>
+            <div>
+                <input type="button" value="." />
+                <input type="button" value="0" />
+                <input type="button" value="/" />
+                <input type="button" value="+" />
+            </div>
+            <div>
+                <input type="button" value="clear" />
+                <input type="button" value="=" />
+            </div>
+        </form>
+    </section>
+
+    <script>
+        function inputView() {
+            const view = document.querySelector('input[type="text"][name="view"][disabled]');
+            return view;
+        }
+
+        function updateDisplay(value) {
+            inputView().value += value;
+        }
+
+        function backspace() {
+            inputView().value = inputView().value.slice(0, -1);
+        }
+
+        function clearDisplay() {
+            inputView().value = '';
+        }
+
+        function calculate() {
+            try {
+                inputView().value = eval(inputView().value.replace('x', '*'));
+            } catch (e) {
+                inputView().value = 'Error';
+            }
+        }
+
+        document.querySelectorAll('input[type="button"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.value;
+                if (value === 'back') {
+                    backspace();
+                } else if (value === 'clear') {
+                    clearDisplay();
+                } else if (value === '=') {
+                    calculate();
+                } else {
+                    updateDisplay(value);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
