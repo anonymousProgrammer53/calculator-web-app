@@ -7,7 +7,6 @@
     <title>Calculator</title>
     <style>
         * {
-            -webkit-box-sizing: border-box;
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -19,10 +18,6 @@
         }
 
         body {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,11 +50,10 @@
         input[type="text"] {
             display: block;
             width: calc(100% - 1rem);
-            margin-block: 1rem;
-            margin-inline: auto;
+            margin: 1rem auto;
             border: none;
             outline: none;
-            padding-block: 0;
+            padding: 0;
             padding-inline: 2rem;
             text-align: right;
             color: #f2f2f2;
@@ -92,7 +86,6 @@
             background-color: #388E3C;
             color: #f2f2f2;
         }
-
 
         input[type="button"][value="="] {
             width: 70%;
@@ -150,59 +143,51 @@
     </section>
 
     <script>
-        <script>
-    function inputView() {
-        const view = document.querySelector('input[type="text"][name="view"][disabled]');
-        return view;
-    }
+        function inputView() {
+            const view = document.querySelector('input[name="view"]');
+            return view;
+        }
 
-    function updateDisplay(value) {
-        inputView().value += value;
-    }
+        function updateDisplay(value) {
+            inputView().value += value;
+        }
 
-    function backspace() {
-        inputView().value = inputView().value.slice(0, -1);
-    }
+        function backspace() {
+            inputView().value = inputView().value.slice(0, -1);
+        }
 
-    function clearDisplay() {
-        inputView().value = '';
-    }
+        function clearDisplay() {
+            inputView().value = '';
+        }
 
-    function calculate() {
-        try {
-            // Ganti x dengan *
-            const expression = inputView().value.replace(/x/g, '*');
-
-            // Cek apakah ekspresinya hanya mengandung angka dan operator yang valid
-            if (/^[0-9+\-*/.() ]+$/.test(expression)) {
-                // Gunakan Function constructor yang lebih aman dari eval
-                const result = Function('"use strict"; return (' + expression + ')')();
-                inputView().value = result;
-            } else {
+        function calculate() {
+            try {
+                const expression = inputView().value.replace(/x/g, '*');
+                if (/^[0-9+\-*/.() ]+$/.test(expression)) {
+                    const result = Function('"use strict"; return (' + expression + ')')();
+                    inputView().value = result;
+                } else {
+                    inputView().value = 'Error';
+                }
+            } catch (e) {
                 inputView().value = 'Error';
             }
-        } catch (e) {
-            inputView().value = 'Error';
         }
-    }
 
-    document.querySelectorAll('input[type="button"]').forEach(button => {
-        button.addEventListener('click', () => {
-            const value = button.value;
-            if (value === 'back') {
-                backspace();
-            } else if (value === 'clear') {
-                clearDisplay();
-            } else if (value === '=') {
-                calculate();
-            } else {
-                updateDisplay(value);
-            }
+        document.querySelectorAll('input[type="button"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.value;
+                if (value === 'back') {
+                    backspace();
+                } else if (value === 'clear') {
+                    clearDisplay();
+                } else if (value === '=') {
+                    calculate();
+                } else {
+                    updateDisplay(value);
+                }
+            });
         });
-    });
-</script>
-
     </script>
 </body>
-
 </html>
