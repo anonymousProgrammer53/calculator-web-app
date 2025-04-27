@@ -150,45 +150,58 @@
     </section>
 
     <script>
-        function inputView() {
-            const view = document.querySelector('input[type="text"][name="view"][disabled]');
-            return view;
-        }
+        <script>
+    function inputView() {
+        const view = document.querySelector('input[type="text"][name="view"][disabled]');
+        return view;
+    }
 
-        function updateDisplay(value) {
-            inputView().value += value;
-        }
+    function updateDisplay(value) {
+        inputView().value += value;
+    }
 
-        function backspace() {
-            inputView().value = inputView().value.slice(0, -1);
-        }
+    function backspace() {
+        inputView().value = inputView().value.slice(0, -1);
+    }
 
-        function clearDisplay() {
-            inputView().value = '';
-        }
+    function clearDisplay() {
+        inputView().value = '';
+    }
 
-        function calculate() {
-            try {
-                inputView().value = eval(inputView().value.replace('x', '*'));
-            } catch (e) {
+    function calculate() {
+        try {
+            // Ganti x dengan *
+            const expression = inputView().value.replace(/x/g, '*');
+
+            // Cek apakah ekspresinya hanya mengandung angka dan operator yang valid
+            if (/^[0-9+\-*/.() ]+$/.test(expression)) {
+                // Gunakan Function constructor yang lebih aman dari eval
+                const result = Function('"use strict"; return (' + expression + ')')();
+                inputView().value = result;
+            } else {
                 inputView().value = 'Error';
             }
+        } catch (e) {
+            inputView().value = 'Error';
         }
+    }
 
-        document.querySelectorAll('input[type="button"]').forEach(button => {
-            button.addEventListener('click', () => {
-                const value = button.value;
-                if (value === 'back') {
-                    backspace();
-                } else if (value === 'clear') {
-                    clearDisplay();
-                } else if (value === '=') {
-                    calculate();
-                } else {
-                    updateDisplay(value);
-                }
-            });
+    document.querySelectorAll('input[type="button"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const value = button.value;
+            if (value === 'back') {
+                backspace();
+            } else if (value === 'clear') {
+                clearDisplay();
+            } else if (value === '=') {
+                calculate();
+            } else {
+                updateDisplay(value);
+            }
         });
+    });
+</script>
+
     </script>
 </body>
 
